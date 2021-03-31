@@ -17,7 +17,7 @@ export default function App() {
   return (
     <NavigationContainer style={styles.container}>
       <StatusBar style="auto" />
-      <Stack.Navigator initialRouteName="Login">
+      <Stack.Navigator initialRouteName="Calculation">
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Signup" component={Signup} />
         <Stack.Screen name="Home" component={Home} />
