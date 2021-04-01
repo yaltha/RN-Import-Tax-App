@@ -1,39 +1,43 @@
 import React, { useState } from "react";
-import { Button, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
 
 const Calculation = () => {
-  // const [hargaBeli, setHargaBeli] = useState(50);
-  // const [ongkir, setOngkir] = useState(4);
-  // const [asuransi, setAsuransi] = useState(3);
-  // const [nilaiPabean, setNilaiPabean] = useState(0);
-  // const [beaMasuk, setBeaMasuk] = useState(0);
-  // const [nilaiImport, setNilaiImport] = useState(0);
-  // const [ppn, setPpn] = useState(0);
-  // const [totalImportTax, setTotalImportTax] = useState(0);
   const [userValues, setUserValues] = useState({
-    hargaBeli: "",
-    ongkir: "",
-    asuransi: "",
+    hargaBeli: 0,
+    ongkir: 0,
+    asuransi: 0,
   });
   const [result, setResult] = useState({
-    nilaiPabean: "",
-    beaMasuk: "",
-    nilaiImport: "",
-    ppn: "",
-    totalBayar: "",
+    nilaiPabean: 0,
+    beaMasuk: 0,
+    nilaiImport: 0,
+    ppn: 0,
+    totalBayar: 0,
   });
 
   const kurs = 15000;
   const tarifBM = 0.075;
   const tarifPPN = 0.1;
+  const defaultKeyboard = "number-pad";
 
   // const [error, setError] = useState("");
 
-  const handleInputChange = (event) => {
-    setUserValues({ ...userValues, [event.target.name]: event.target.value });
+  // const handleInputChange = (event) => {
+  //   setUserValues({ ...userValues, [event.target.name]: event.target.value });
+  // };
+
+  const handleHargaBeliInputChange = (value) => {
+    setUserValues({ ...userValues, hargaBeli: value });
   };
-  const calculateTax = ({ goodsPrice, shippingCost, insurance }) => {
+  const handleOngkirInputChange = (value) => {
+    setUserValues({ ...userValues, ongkir: value });
+  };
+  const handleAsuransiInputChange = (value) => {
+    setUserValues({ ...userValues, asuransi: value });
+  };
+
+  const calculateTax = (goodsPrice, shippingCost, insurance) => {
     const hargaBeli = Number(goodsPrice) * kurs;
     const ongkir = Number(shippingCost) * kurs;
     const asuransi = Number(insurance) * kurs;
@@ -54,44 +58,9 @@ const Calculation = () => {
   };
 
   const hitungTotal = () => {
-    calculateTax(userValues);
+    calculateTax(userValues.hargaBeli, userValues.ongkir, userValues.asuransi);
+    // calculateTax({ hargaBeli, ongkir, asuransi });
   };
-  // const nPabean = () => {
-  //   const npn = hargaBeli * kurs + ongkir * kurs + asuransi * kurs;
-  //   return setNilaiPabean(npn);
-  // };
-  // const bMasuk = () => {
-  //   const bmsk = nilaiPabean * tarifBM;
-  //   return setBeaMasuk(bmsk);
-  // };
-  // const nImport = () => {
-  //   const ni = nilaiPabean + beaMasuk;
-  //   return setNilaiImport(ni);
-  // };
-  // const pajakPpn = () => {
-  //   const ppn = nilaiImport * tarifPPN;
-  //   return setPpn(ppn);
-  // };
-
-  // const hitungTotal = () => {
-  //   const total = Math.ceil(beaMasuk + ppn);
-  //   return setTotalImportTax(total);
-  // };
-
-  // const handleCalculation = () => {
-  //   setTotalImportTax(total);
-  // };
-  // const inputHargaBarang = (inputValue) => {
-  //   setHargaBeli(inputValue);
-  // };
-
-  // const inputOngkir = (inputValue) => {
-  //   setOngkir(inputValue);
-  // };
-
-  // const inputAsuransi = (inputValue) => {
-  //   setAsuransi(inputValue);
-  // };
 
   return (
     <View>
@@ -99,22 +68,22 @@ const Calculation = () => {
       <TextInput
         style={styles._input}
         placeholder="Harga beli barang..."
-        onChangeText={handleInputChange}
-        value={userValues.hargaBeli}
+        onChangeText={handleHargaBeliInputChange}
+        keyboardType={defaultKeyboard}
       />
       <Text style={styles._labelText}>Ongkos kirim:</Text>
       <TextInput
         style={styles._input}
         placeholder="Ongkos pengiriman..."
-        onChangeText={handleInputChange}
-        value={userValues.ongkir}
+        onChangeText={handleOngkirInputChange}
+        keyboardType={defaultKeyboard}
       />
       <Text style={styles._labelText}>Asuransi: </Text>
       <TextInput
         style={styles._input}
         placeholder="Biaya asuranasi"
-        onChangeText={handleInputChange}
-        value={userValues.asuransi}
+        onChangeText={handleAsuransiInputChange}
+        keyboardType={defaultKeyboard}
       />
       <TouchableOpacity style={styles._btn} onPress={hitungTotal}>
         <Text style={styles._btnText}>Hitung Pajak</Text>
@@ -215,8 +184,8 @@ const styles = StyleSheet.create({
     marginVertical: 5,
   },
   _priceResultText: {
-    fontWeight: "bold",
-    fontSize: 20,
+    // fontWeight: "bold",
+    fontSize: 16,
   },
   _totalText: {
     fontWeight: "bold",
@@ -226,10 +195,12 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 25,
     alignSelf: "flex-end",
+    color: "#112",
   },
   _totalResultTextWrapper: {
     borderBottomColor: "darkblue",
     borderBottomWidth: 1,
+    paddingVertical: 10,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",

@@ -31,7 +31,6 @@ const Login = ({ navigation }) => {
       >
         <Text style={styles._btnSignupText}>Login</Text>
       </TouchableOpacity>
-
       {/* <View style={styles._loginOptionsContainer}>
         <TouchableOpacity style={styles._loginOptions}>
           <Icon name={"github"} size={40} />
@@ -40,7 +39,6 @@ const Login = ({ navigation }) => {
           <Icon name={"facebook-square"} size={40} />
         </TouchableOpacity>
       </View> */}
-
       <TouchableOpacity onPress={() => navigation.navigate("Login")}>
         <Text style={styles._loginText}>Already have an account?</Text>
       </TouchableOpacity>
